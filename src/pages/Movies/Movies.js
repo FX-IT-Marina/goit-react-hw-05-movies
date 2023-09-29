@@ -28,7 +28,7 @@ const Movies = () => {
   const onSubmit = async e => {
     e.preventDefault();
     setSearchParams({ name: movie });
-    await fetchMovies(); // Вызываем fetchMovies только после сабмита
+    await fetchMovies();
   };
 
   return (
