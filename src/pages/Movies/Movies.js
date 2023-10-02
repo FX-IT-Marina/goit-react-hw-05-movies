@@ -15,20 +15,26 @@ const Movies = () => {
   const query = searchParams.get('name') ?? '';
   const [movie, setMovie] = useState(query);
   const [searchMovie, setSearchMovie] = useState([]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const movies = await API.search(movie);
+        setSearchMovie(movies);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-  const fetchMovies = async () => {
-    try {
-      const movies = await API.search(movie);
-      setSearchMovie(movies);
-    } catch (error) {
-      console.log(error);
+    if (formSubmitted) {
+      fetchMovies();
     }
-  };
+  }, [movie, formSubmitted]);
 
   const onSubmit = async e => {
     e.preventDefault();
     setSearchParams({ name: movie });
-    await fetchMovies();
+    setFormSubmitted(true);
   };
 
   return (
@@ -41,7 +47,8 @@ const Movies = () => {
         />
         <Button type="submit">Search</Button>
       </FormMovie>
-      {searchMovie && searchMovie.length > 0 && (
+
+      {formSubmitted && searchMovie && searchMovie.length > 0 && (
         <ul>
           {searchMovie.map(({ id, title }) => (
             <ListMovie key={id}>

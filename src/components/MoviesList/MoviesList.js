@@ -7,7 +7,7 @@ const SearchMovieList = ({ searchMovie = [] }) => {
     <ul>
       {searchMovie.map(({ id, title }) => (
         <li key={id}>
-          <Link to={`${id}`} state={{ from: location }} className={css.item}>
+          <Link to={`${id}`} state={{ from: location }}>
             {title}
           </Link>
         </li>
